@@ -2,8 +2,18 @@
 const form = document.querySelector('#form');
 const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
+const emptyList = document.querySelector('#emptyList');
 
-form.addEventListener('submit', function(event){
+// Добавление задачи
+form.addEventListener('submit', addTask);
+
+
+// Удаление задачи
+tasksList.addEventListener('click', deleteTask);
+
+
+// Функции
+function addTask(event) {
     // Отменяем отправку формы
     event.preventDefault();
     
@@ -30,4 +40,24 @@ form.addEventListener('submit', function(event){
     // Очищаем поле ввода и возвращаем фокус на него
     taskInput.value = "";
     taskInput.focus();
-})
+
+    // Проверка. Если в списке задач более 1-го элемента, скрываем блок "Список дел пуст"
+    if(tasksList.children.length > 1) {
+        emptyList.classList.add('none');
+    }
+}
+
+function deleteTask(event) {
+    
+    // Проверяем что клик был по кнопке "удалить задачу"
+    if(event.target.dataset.action === 'delete'){
+        const parentNode = event.target.closest('.list-group-item');
+        parentNode.remove();
+
+
+        // Проверка. Если в списке задача один элемент, то показываем блок "Список задач пуст"
+        if(tasksList.children.length === 1){
+            emptyList.classList.remove('none');
+        }
+    }
+}
