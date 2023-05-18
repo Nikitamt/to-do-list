@@ -11,6 +11,9 @@ form.addEventListener('submit', addTask);
 // Удаление задачи
 tasksList.addEventListener('click', deleteTask);
 
+// Отмечаем задачу завершенной 
+tasksList.addEventListener('click', doneTask);
+
 
 // Функции
 function addTask(event) {
@@ -61,3 +64,14 @@ function deleteTask(event) {
         }
     }
 }
+
+function doneTask(event) {
+    // Проверяем что клик был по кнопке "Задача выполнена"
+    if(event.target.dataset.action === "done"){
+        const parentNode = event.target.closest('.list-group-item');
+        const taskTitle = parentNode.querySelector('.task-title');
+
+        taskTitle.classList.toggle('task-title--done');
+    }
+}
+
